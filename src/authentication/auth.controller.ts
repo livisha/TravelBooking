@@ -1,9 +1,20 @@
 import { Controller, Post, Body } from "@nestjs/common";
 import { AuthService } from "./auth.service";
+import { SignUpRequestBody } from "./dto/signBody.response.dto";
 
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService : AuthService){}
+
+    @Post('signUp')
+    async signUp(@Body() signUpRequestBody:SignUpRequestBody){
+        try{
+        return await this.authService.signUp(signUpRequestBody);
+        } catch (error) {
+            throw new Error('Error during SignUp');
+          }
+ 
+    }
 
     @Post('login')
     async login(@Body() userCredentials:{email:string, password: string }){
